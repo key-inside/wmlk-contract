@@ -36,6 +36,6 @@ Example
 truffle(develop)> wt = await WMLK.deployed()
 truffle(develop)> wt.address
 truffle(develop)> wt.wrap('0xc4b50dd1042c8e7c5837ae084beafe9c28213233', '12300000000', '0x2dda34f2183b84cebfa93b2c47e0db3c889b1543f26c5f317ce3f6ab46e66a1e')
-truffle(develop)> wt.deposited('0x2dda34f2183b84cebfa93b2c47e0db3c889b1543f26c5f317ce3f6ab46e66a1e')
+truffle(develop)> wt.wrapped('0x2dda34f2183b84cebfa93b2c47e0db3c889b1543f26c5f317ce3f6ab46e66a1e')
 truffle(develop)> (await wt.balanceOf('0xc4b50dd1042c8e7c5837ae084beafe9c28213233')).toString()
 ```
