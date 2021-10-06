@@ -37,10 +37,11 @@ module.exports = {
     //     directory: ".db"
     //   }
     // }
-  // }
+  // },
+
   compilers: {
     solc: {
-      version: "0.8.4" 
+      version: "0.8.9" 
     }
- }
+  }
 };
