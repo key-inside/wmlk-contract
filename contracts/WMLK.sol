@@ -13,11 +13,11 @@ contract WMLK is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     bytes32 public constant WRAPPER_ROLE = keccak256("WRAPPER_ROLE");
 
-    mapping(bytes32 => bool) private _extTxHashes;
+    mapping(bytes32 => bool) private _extIDs;
 
-    event Wrapped(address account, uint256 amount, bytes32 extTxHash);
+    event Wrapped(address indexed to, uint256 amount, bytes32 indexed extID);
 
-    event Unwrapped(address account, uint256 amount, address extAccount);
+    event Unwrapped(address indexed from, uint256 amount, address indexed extTo);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
@@ -55,10 +55,10 @@ contract WMLK is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     }
 
     /**
-     * @dev Returns `true` if `extTxHash` has been wrapped.
+     * @dev Returns `true` if `extID` has been wrapped.
      */
-    function wrapped(bytes32 extTxHash) public view returns (bool) {
-        return _extTxHashes[extTxHash];
+    function wrapped(bytes32 extID) public view returns (bool) {
+        return _extIDs[extID];
     }
 
     /**
@@ -66,14 +66,14 @@ contract WMLK is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
      *
      * Emits {Wrapped} and {IERC20-Transfer} events.
      */
-    function wrap(address account, uint256 amount, bytes32 extTxHash) public onlyRole(WRAPPER_ROLE) returns (bool) {
-        require(!wrapped(extTxHash), "Wrapper: already wrapped external tx");
+    function wrap(address to, uint256 amount, bytes32 extID) public onlyRole(WRAPPER_ROLE) returns (bool) {
+        require(!wrapped(extID), "Wrapper: already wrapped external ID");
         require(amount > 0, "Wrapper: zero amount");
 
-        _extTxHashes[extTxHash] = true;
-        _mint(account, amount);
+        _extIDs[extID] = true;
+        _mint(to, amount);
 
-        emit Wrapped(account, amount, extTxHash);
+        emit Wrapped(to, amount, extID);
 
         return true;
     }
@@ -83,12 +83,12 @@ contract WMLK is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
      *
      * Emits {Unwrapped} and {IERC20-Transfer} events.
      */
-    function unwrap(address extAccount, uint256 amount) public returns (bool) {
+    function unwrap(address extTo, uint256 amount) public returns (bool) {
         require(amount > 0, "Wrapper: zero amount");
 
         _burn(_msgSender(), amount);
 
-        emit Unwrapped(_msgSender(), amount, extAccount);
+        emit Unwrapped(_msgSender(), amount, extTo);
 
         return true;
     }
