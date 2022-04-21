@@ -49,7 +49,7 @@ contract WMLK is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     }
 
     function cap() public pure returns (uint256) {
-        return 986245419 * 10 * 8;
+        return 986245419 * 10 ** 8;
     }
 
     function pause() external onlyRole(PAUSER_ROLE) {

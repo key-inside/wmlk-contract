@@ -44,7 +44,7 @@ truffle(develop)> (await wt.balanceOf(accounts[1])).toString()
 ## Migration
 ```sh
 % truffle migrate --network kovan
-// specific files
+# specific files
 % truffle migrate -f 2 --to 2 --network kovan
 ```
 
@@ -58,3 +58,12 @@ import "@openzeppelin/contracts-upgradeable@4.5.2/...
 ```
 4. Choose the compiler version and compile
 5. Add the 'FLATTENER' plugin and use it
+
+## Recreate .openzeppelin/\<network_name\>.json
+* https://docs.openzeppelin.com/upgrades-plugins/1.x/network-files
+* https://docs.openzeppelin.com/upgrades-plugins/1.x/api-truffle-upgrades#force-import
+```sh
+# force import
+% truffle migrate -f 3 --to 3 --network kovan
+```
+* If `upgradeProxy` does not deploy new contract, edit key(hash) of the last child of "impls"
