@@ -95,8 +95,10 @@ module.exports = {
       // provider: () => new HDWalletProvider(secrets.live.mnemonic, `https://cloudflare-eth.com`),
       provider: () => new HDWalletProvider(secrets.live.mnemonic, `https://mainnet.infura.io/v3/${secrets.live.projectId}`),
       network_id: 1,
-      gas: 6000000,
-      gasPrice: 20000000000
+      // gas: 5000000,
+      gas: 500000,
+      gasPrice: 35000000000
+      // skipDryRun: true
     }
   },
 
